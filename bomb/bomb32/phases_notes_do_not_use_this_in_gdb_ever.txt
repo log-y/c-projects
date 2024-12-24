@@ -1,0 +1,41 @@
+phase_5:
+string must be 6 characters long
+the 'and' masks it, and only the last 4 bits are stored (values 0-15)
+then does a LOOKUP OF EACH 4BIT LETTER in a 'table' at 401ea0
+then stores what that number is (0-15) mapped to
+checks the result of each character against whatever is stored at 0x401e53
+
+plan: see whats at 0x401e53, see how u can get each character from the table
+
+phase_6:
+reads in 6 numbers
+
+loads r12 into eax, subtracts 1 from eax. if eax > 5, it explodes
+put 0 into esi, then there's a for loop (from [0 to 6)) (or 6 to 0 idk) 
+moves all 6 numbers from stack into different registers
+
+ITERATES THROUGH EACH 6 NUMBERS
+- if the NEXT number is LESS THAN current number, it EXPLODES
+the issue is that idk if it goes from index 6 to 0, or 0 to 6
+
+0 i
+1 s
+2 r
+3 v
+4 e
+5 a
+6 w
+7 h
+8 o
+9 b
+10 p
+11 n
+12 u 
+13 t
+14 f
+15 g
+
+isrveawhobpnutfg
+
+titans = (13)(0)(13)(5)(11)(1)
+

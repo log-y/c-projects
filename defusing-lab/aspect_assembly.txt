@@ -1,0 +1,52 @@
+
+aspect.o:     file format elf64-x86-64
+
+
+Disassembly of section .text:
+
+0000000000000000 <changes_aspect>:
+   0:	55                   	push   %rbp
+   1:	48 89 e5             	mov    %rsp,%rbp
+   4:	89 7d fc             	mov    %edi,-0x4(%rbp)
+   7:	83 7d fc 06          	cmpl   $0x6,-0x4(%rbp)
+   b:	77 3e                	ja     4b <changes_aspect+0x4b>
+   d:	8b 45 fc             	mov    -0x4(%rbp),%eax
+  10:	48 8b 04 c5 00 00 00 	mov    0x0(,%rax,8),%rax
+  17:	00 
+  18:	ff e0                	jmpq   *%rax
+  1a:	b8 00 00 00 00       	mov    $0x0,%eax
+  1f:	eb 2f                	jmp    50 <changes_aspect+0x50>
+  21:	b8 01 00 00 00       	mov    $0x1,%eax
+  26:	eb 28                	jmp    50 <changes_aspect+0x50>
+  28:	b8 00 00 00 00       	mov    $0x0,%eax
+  2d:	eb 21                	jmp    50 <changes_aspect+0x50>
+  2f:	b8 01 00 00 00       	mov    $0x1,%eax
+  34:	eb 1a                	jmp    50 <changes_aspect+0x50>
+  36:	b8 00 00 00 00       	mov    $0x0,%eax
+  3b:	eb 13                	jmp    50 <changes_aspect+0x50>
+  3d:	b8 00 00 00 00       	mov    $0x0,%eax
+  42:	eb 0c                	jmp    50 <changes_aspect+0x50>
+  44:	b8 01 00 00 00       	mov    $0x1,%eax
+  49:	eb 05                	jmp    50 <changes_aspect+0x50>
+  4b:	b8 00 00 00 00       	mov    $0x0,%eax
+  50:	5d                   	pop    %rbp
+  51:	c3                   	retq   
+
+0000000000000052 <main>:
+  52:	55                   	push   %rbp
+  53:	48 89 e5             	mov    %rsp,%rbp
+  56:	48 83 ec 10          	sub    $0x10,%rsp
+  5a:	c7 45 fc 00 00 00 00 	movl   $0x0,-0x4(%rbp)
+  61:	8b 45 fc             	mov    -0x4(%rbp),%eax
+  64:	89 c7                	mov    %eax,%edi
+  66:	e8 00 00 00 00       	callq  6b <main+0x19>
+  6b:	88 45 fb             	mov    %al,-0x5(%rbp)
+  6e:	80 7d fb 00          	cmpb   $0x0,-0x5(%rbp)
+  72:	74 0c                	je     80 <main+0x2e>
+  74:	bf 00 00 00 00       	mov    $0x0,%edi
+  79:	e8 00 00 00 00       	callq  7e <main+0x2c>
+  7e:	eb 0a                	jmp    8a <main+0x38>
+  80:	bf 00 00 00 00       	mov    $0x0,%edi
+  85:	e8 00 00 00 00       	callq  8a <main+0x38>
+  8a:	bf 00 00 00 00       	mov    $0x0,%edi
+  8f:	e8 00 00 00 00       	callq  94 <main+0x42>

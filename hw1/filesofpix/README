@@ -1,0 +1,21 @@
+Names:
+Logan Yuan, Dylan Perkins
+lyuan04, dperki01
+
+Help Received:
+We attended office hours, so thank you to the TAs that helped us!
+
+What has been correctly and incorrectly implemented:
+We believe that we have generally implemented the entire program correctly.
+One hitch is that we do not free all the memory, but this is
+because we used Hanson atoms. We did remove all of the other 
+variables we malloc'ed.
+We also noticed our program didn't correctly run on sail, turing, or alum
+(the corrupted files in the corrupted repository). We think this is because
+we couldn't correctly handle files with \0 already in them.
+Another issue was that if there was an empty line, our program would instantly
+ crash.
+
+
+Hours worked:
+30

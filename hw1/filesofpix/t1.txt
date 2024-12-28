@@ -1,0 +1,7 @@
+P5
+4 5
+255
+abcdf
+abcdf
+abcdf
+abcdf

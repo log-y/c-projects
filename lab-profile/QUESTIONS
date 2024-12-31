@@ -1,0 +1,32 @@
+UNBLACKEDGES
+
+Please put answers to questions here.
+
+  1. What fraction of time is spent in I/O as compared with removing
+     black edges?
+  
+54.61% spent in I/O
+45.39% spent on removing black edges
+
+  2. How long does
+  
+        time ./unblackedges 
+  
+     take?
+
+0:01.47elapsed 
+  
+  3. After making changes requested in the lab handout (steps 1-4), what
+     happened to the total time?
+  
+0:01.25elapsed (time went down a little bit, by 17.6%)
+
+  4. What happened to the fraction of time spent in Bit_put?
+  
+After the BFS change, it was 7.75%. Before it was 7.72%.
+
+  5. Since the implementation of Bit_put has not been improved, what has
+     changed?
+   
+The % of runtime spent in Bit_get before was 11.03%.
+Now using BFS, it is 11.07%.

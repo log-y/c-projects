@@ -1,0 +1,93 @@
+Authors:
+Yamamoto, Charlotte (cyamam01)
+Yuan, Logan (lyuan04)
+
+Any outside help we've received:
+None. Just the lectures and the spec!
+
+We believe we have implemented the whole assignmenet correctly. This includes 
+the extra transposition and flipping options.
+
+Architecture:
+
+We read the image in using pnm.h to a A2Methods_UArray2 object. Depending on
+the method passed to it (and specified by the user), this would either be a 
+plain or blocked UArray2.
+
+We then declared a temporary Pnm_ppm that we would store the new locations in.
+Depending on the method specified by the user, this would either be a plain
+or blocked UArray2.
+
+We mapped through our original image (using the map specified by the user and 
+stored in the A2Methods_mapfun object). At each element we retrieved, we 
+calculated the resulting location in the temporary Pnm_ppm (using a series
+of switch/case statements to check what rotation we needed to execute).
+We then placed the pixel in the temporary Pnm_ppm (using the ->at() function).
+Depending on what the user specified, this would either put an element in a 
+blocked array to another blocked array, or an element in a plain array to 
+another plain array. We used helper structs and functions to modularize the 
+common operations we needed to use (like create a pair of coordinates, 
+calculate its new position, create the closure struct to store the temp image,
+etc).
+
+We then wrote the temporary image to stdout and freed all the memory.
+
+Measured performance:
+Our results on from-wind-cave.jpg scaled up by a factor of 10. This contained
+a total of 4,671,600 pixels.
+90 degree rotation:
+- block major: 3679 ms, 0.000098 ms/pixel, 98 instructions per pixel
+- row major: 4348 ms, 0.000116 ms/pixel, 116 instructions per pixel
+- col major: 4179 ms, 0.000112 ms/pixel, 112 instructions per pixel
+180 degree rotation:
+- block major: 3112 ms, 0.000083 ms/pixel, 83 instructions per pixel
+- row major: 2240 ms, 0.000060 ms/pixel, 60 instructions per pixel
+- col major: 5452 ms, 0.000146 ms/pixel, 146 instructions per pixel
+
+Another result from animals.ppm scaled up by a factor of 15. This image
+contained 3,375,000 pixels.
+90 degree rotation:
+- block major: 2563 ms, 0.000095 ms/pixel, 95 instructions per pixel
+- row major: 2984 ms, 0.000111 ms/pixel, 111 instructions per pixel
+- col major: 2567 ms, 0.000095 ms/pixel, 95 instructions per pixel
+180 degree rotation:
+- col major: 3850 ms, 0.000143 ms/pixel, 143 instructions per pixel
+- row major: 1610 ms, 0.000060 ms/pixel, 60 instructions per pixel
+- block major: 2245 ms, 0.000083 ms/pixel, 83 instructions per pixel
+
+MORE INFORMATION (IN ACTUAL TABLE FORM) IS IN THE PDF I ATTACHED CALLED
+LOCALITY_TESTS. WE RAN A LARGE NUMBER OF TESTS AND ANALYZED OUR 
+DATA THERE. THE ABOVE ARE SAMPLE TESTS WE HAVE DRAWN FROM THE ACTUAL TABLE.
+
+In both of these (ordered from fastest to slowest):
+180 row major, 180 block major, 90 block major, 90 column major, 90 row major,
+180 col major
+
+180 row major is the quickest because the entire 2d array is oriented as a 
+single, contiguous arrayin our plain structure. Thus, elements in the same
+row will be next to each other in RAM and more frequently cached. Furthermore,
+writing to the output array is also writing by the rows, which is quick because
+the pnm's pixels are stored in rows.
+
+180 col major was the slowest because it is reading by column major
+in a data structure that stores pixels continguously in rows. Thus, an element
+in the same column but a different row will be further away in RAM and (very)
+unlikely to be cached efficiently.
+
+90 row and col major were somewhat faster on avg because in both cases, we were
+either reading by rows and writing to columns, or reading by columns
+and writing to rows. Because they each contained a case that involved 
+accessing by rows and a case that was accessing by columns, they were both
+similar in times. 
+
+The block majors for 90 and 180 were among the fastest because they leveraged
+'blocking', or putting contiguous elements in nearby rows and columns in the
+same block in the cache. This leads to a quicker overall access time.
+However, it will never beat 180 rows (for large images whose rows can't fit
+in the cache) because rows are the quickest to read and write to.
+
+Computer architecture:
+Model name: Intel(R) Xeon(R) Silver 4214Y CPU @ 2.20GHz
+Model: 85
+CPU type: Intel(R) Xeon(R) Silver 4214Y
+Clock rate: 2194.843 megahertz

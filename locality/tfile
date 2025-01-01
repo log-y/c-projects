@@ -1,0 +1,71 @@
+image from stdin was rotated 90 degrees using block-major mapping in 1.786273 milliseconds
+image from stdin was rotated 90 degrees using block-major mapping in 1.783261 milliseconds
+image from stdin was rotated 90 degrees using block-major mapping in 1.790544 milliseconds with 0.000098 milliseconds per pixel
+image from stdin was rotated 90 degrees using block-major mapping in 1.805194 milliseconds with 0.000099 milliseconds per pixel
+image from stdin was rotated 90 degrees using block-major mapping in 1.819883 milliseconds with 0.000100 milliseconds per pixel
+image from stdin was rotated 180 degrees using row-major mapping in 1.236083 milliseconds with 0.000068 milliseconds per pixel
+image from stdin was rotated 180 degrees using row-major mapping in 1.004707 milliseconds with 0.000055 milliseconds per pixel
+image from stdin was rotated 180 degrees using row-major mapping in 1.017794 milliseconds with 0.000056 milliseconds per pixel
+image from stdin was rotated 180 degrees using row-major mapping in 33.973554 milliseconds with 0.001869 milliseconds per pixel
+image from stdin was rotated 180 degrees using row-major mapping in 33.821873 milliseconds with 0.001860 milliseconds per pixel
+image from stdin was rotated 180 degrees using row-major mapping in 34.377608 milliseconds with 0.001891 milliseconds per pixel
+image from stdin was rotated 180 degrees using row-major mapping in 34.915045 milliseconds with 0.001921 milliseconds per pixel
+image from stdin was rotated 180 degrees using row-major mapping in 34.235100 milliseconds with 0.001883 milliseconds per pixel
+image from stdin was rotated 180 degrees using row-major mapping in 34.653429 milliseconds with 0.001906 milliseconds per pixel
+image from stdin was rotated 180 degrees using row-major mapping in 33.952590 milliseconds with 0.001868 milliseconds per pixel
+image from stdin was rotated 180 degrees using row-major mapping in 34.350121 milliseconds with 0.001889 milliseconds per pixel
+image from stdin was rotated 180 degrees using row-major mapping in 1.002016 milliseconds with 0.000055 milliseconds per pixel
+image from stdin was rotated 180 degrees using block-major mapping in 1.683770 milliseconds with 0.000093 milliseconds per pixel
+image from stdin was rotated 180 degrees using block-major mapping in 1.656085 milliseconds with 0.000091 milliseconds per pixel
+image from stdin was rotated 180 degrees using block-major mapping in 1.645569 milliseconds with 0.000091 milliseconds per pixel
+image from stdin was rotated 180 degrees using block-major mapping in 1.652913 milliseconds with 0.000091 milliseconds per pixel
+image fromwindcave.jpg was rotated 90 degrees using block-major mapping in 423.000741 milliseconds with 0.000092 milliseconds per pixel
+image fromwindcave.jpg was rotated 90 degrees using block-major mapping in 925.231350 milliseconds with 0.000099 milliseconds per pixel
+image fromwindcave.jpg was rotated 90 degrees using block-major mapping in 3679.753904 milliseconds with 0.000098 milliseconds per pixel
+image fromwindcave.jpg was rotated 90 degrees using row-major mapping in 4348.555008 milliseconds with 0.000116 milliseconds per pixel
+image fromwindcave.jpg was rotated 90 degrees using block-major mapping in 3727.199165 milliseconds with 0.000100 milliseconds per pixel
+image fromwindcave.jpg was rotated 90 degrees using column-major mapping in 4179.953686 milliseconds with 0.000112 milliseconds per pixel
+image fromwindcave.jpg was rotated 180 degrees using column-major mapping in 5452.220474 milliseconds with 0.000146 milliseconds per pixel
+image fromwindcave.jpg was rotated 180 degrees using row-major mapping in 2240.628306 milliseconds with 0.000060 milliseconds per pixel
+image fromwindcave.jpg was rotated 180 degrees using block-major mapping in 3112.300492 milliseconds with 0.000083 milliseconds per pixel
+image animals.jpg was rotated 180 degrees using column-major mapping in 319.008461 milliseconds with 0.000106 milliseconds per pixel
+image animals.jpg was rotated 180 degrees using column-major mapping in 1022.089471 milliseconds with 0.000133 milliseconds per pixel
+image animals.jpg was rotated 180 degrees using column-major mapping in 1173.062691 milliseconds with 0.000121 milliseconds per pixel
+image animals.jpg was rotated 180 degrees using column-major mapping in 3850.620927 milliseconds with 0.000143 milliseconds per pixel
+image animals.jpg was rotated 180 degrees using row-major mapping in 1610.147833 milliseconds with 0.000060 milliseconds per pixel
+image animals.jpg was rotated 180 degrees using block-major mapping in 2245.149230 milliseconds with 0.000083 milliseconds per pixel
+image animals.jpg was rotated 90 degrees using row-major mapping in 2984.689291 milliseconds with 0.000111 milliseconds per pixel
+image animals.jpg was rotated 90 degrees using column-major mapping in 2567.467191 milliseconds with 0.000095 milliseconds per pixel
+image animals.jpg was rotated 90 degrees using block-major mapping in 2563.775418 milliseconds with 0.000095 milliseconds per pixel
+image flowers.ppm was rotated 180 degrees using block-major mapping in 68.760782 milliseconds with 0.003782 milliseconds per pixel
+image flowers.ppm was rotated 180 degrees using block-major mapping in 68.661450 milliseconds with 0.003777 milliseconds per pixel
+image flowers.ppm was rotated 180 degrees using row-major mapping in 34.138650 milliseconds with 0.001878 milliseconds per pixel
+image flowers.ppm was rotated 180 degrees using column-major mapping in 34.060705 milliseconds with 0.001874 milliseconds per pixel
+image flowers.ppm was rotated 180 degrees using block-major mapping in 68.077880 milliseconds with 0.003745 milliseconds per pixel
+image flowers.ppm was rotated 180 degrees using block-major mapping in 65.023084 milliseconds with 0.003577 milliseconds per pixel
+image flowers.ppm was rotated 180 degrees using block-major mapping in 47.998721 milliseconds with 0.002640 milliseconds per pixel
+image flowers.ppm was rotated 180 degrees using block-major mapping in 66.589654 milliseconds with 0.003663 milliseconds per pixel
+image flowers.ppm was rotated 180 degrees using block-major mapping in 68.072679 milliseconds with 0.003744 milliseconds per pixel
+image flowers.ppm was rotated 180 degrees using block-major mapping in 51.101894 milliseconds with 0.002811 milliseconds per pixel
+image flowers.ppm was rotated 180 degrees using block-major mapping in 51.290365 milliseconds with 0.002821 milliseconds per pixel
+image flowers.ppm was rotated 90 degrees using block-major mapping in 49.454149 milliseconds with 0.002720 milliseconds per pixel
+image flowers.ppm was rotated 90 degrees using column-major mapping in 34.719177 milliseconds with 0.001910 milliseconds per pixel
+image flowers.ppm was rotated 0 degrees using column-major mapping in 33.971435 milliseconds with 0.001869 milliseconds per pixel
+image flowers.ppm was rotated 0 degrees using block-major mapping in 52.527211 milliseconds with 0.002889 milliseconds per pixel
+image flowers.ppm was rotated 0 degrees using block-major mapping in 52.783496 milliseconds with 0.002903 milliseconds per pixel
+image flowers.ppm was rotated 90 degrees using column-major mapping in 34.583994 milliseconds with 0.001902 milliseconds per pixel
+image flowers.ppm was rotated 90 degrees using block-major mapping in 49.660641 milliseconds with 0.002732 milliseconds per pixel
+image flowers.ppm was rotated 90 degrees using row-major mapping in 35.549951 milliseconds with 0.001955 milliseconds per pixel
+image flowers.ppm was rotated 90 degrees using column-major mapping in 34.982606 milliseconds with 0.001924 milliseconds per pixel
+image flowers.ppm was rotated 90 degrees using column-major mapping in 34.397518 milliseconds with 0.001892 milliseconds per pixel
+image flowers.ppm was rotated 90 degrees using block-major mapping in 49.999419 milliseconds with 0.002750 milliseconds per pixel
+image flowers.ppm was rotated 90 degrees using block-major mapping in 49.587852 milliseconds with 0.002728 milliseconds per pixel
+image from stdin was rotated 90 degrees using row-major mapping in 74.671646 milliseconds with 0.000069 milliseconds per pixel
+image from stdin was rotated 90 degrees using row-major mapping in 75.732659 milliseconds with 0.000070 milliseconds per pixel
+image from stdin was rotated 90 degrees using row-major mapping in 2057.804615 milliseconds with 0.001905 milliseconds per pixel
+image from stdin was rotated 90 degrees using column-major mapping in 2039.285003 milliseconds with 0.001888 milliseconds per pixel
+image from stdin was rotated 90 degrees using block-major mapping in 2451.719964 milliseconds with 0.002270 milliseconds per pixel
+image from stdin was rotated 180 degrees using block-major mapping in 2478.961790 milliseconds with 0.002295 milliseconds per pixel
+image from stdin was rotated 180 degrees using block-major mapping in 2469.078351 milliseconds with 0.002286 milliseconds per pixel
+image from stdin was rotated 180 degrees using row-major mapping in 1974.832006 milliseconds with 0.001829 milliseconds per pixel
+image from stdin was rotated 180 degrees using column-major mapping in 2008.313058 milliseconds with 0.001860 milliseconds per pixel

@@ -1,0 +1,130 @@
+           CS 40 Lab: Unboxed and 2D Arrays
+
+
++--------------------------------------------------------+
+|Keeper of the record:                                   |
+|--------------------------------------------------------|
+| Other group member(s):                                 |
+|         Dylan Perkins 
+dperki01                                               |
+|                                                        |
+|                                                        |
++--------------------------------------------------------+
+
+
+PART 1: BOXED AND UNBOXED ARRAYS
+--------------------------------
+
+You are about to design the interface and implementation for a
+collection data type, i.e., an ADT like Hanson's, and you are
+considering the tradeoffs between using a boxed or an unboxed
+interface for values that users store in your collection.
+
+1A: Briefly define the terms "boxed" and "unboxed" as used for these
+    interfaces (i.e., help us be sure you know which is which!):
+
+The term boxed refers to a data structure that stores pointers to data. The
+term unboxed refers to a data structure that stores the data itself.
+
+
+
+
+1B: List two (or more) advantages of the boxed representation.
+
+
+Boxed representation allows for universal polymorphism (because of pass by
+reference). It also can store larger amounts of data (because pointers can
+point to the heap).
+
+
+
+
+
+1C: List two (or more) advantages of an unboxed representation.
+
+Unboxed representation is quicker to access (because the contiguous storage
+of data allows for quick pointer arithmetic to data). It also could use less
+data because it does not need to store pointers to data.
+
+
+
+
+
+
+1D: Look at the interface to UArray (a link to an interface
+    summary is at the start of the lab instructions). Discuss the 
+    methods that show the use of the unboxed style. Why, for example, 
+    does UArray_new take both a number of elements and an element size? 
+
+The UArray_new takes in an element size so it knows how much memory is stored
+at each index. This shows the unboxed style because in an unboxed representation
+, all elements need to be of the same type, and thus, of the same size.
+
+
+
+
+
+
+
+
+
+PART 2: 2D Arrays from 1D Arrays
+--------------------------------
+
+2A. One way to construct a 2D array is to use multiple 1D
+    arrays. Describe briefly how you would do this. For example, if
+    the user asked you to create a 5x7 array of values, how many
+    one-dimensional arrays would you create? If the user asked to
+    store a value in cell [3,6] where would it go?
+
+You would need 8 arrays. One array will keep track of the cols, the other 7 
+will represent each row. The first array will keep pointers to the other 7.
+If a user wanted to store something at [3,6], they would first go to the 7th
+element in the pointer array representing the rows, then go to the 4th index 
+in the array stored at that index.
+
+
+
+
+
+
+
+2B. Another approach is to use a single one-dimensional array and to
+    put all the elements of the 2D array into that. Again, assuming
+    that you are to create a 7x5 2D array, give a mathematical formula
+    for the index in the 2D array where a value [x,y] would go in the
+    1D array.
+
+You can store an array of contiguous numbers representing each row stacked
+back-to-back. You can access a value[x,y] (in row major) by 
+((x-1) * width + y-1). For this situation, do (y-1)5+(x-1).
+
+
+
+
+
+
+2C. (optional) is there another mapping that would work as well?
+
+
+Yes, the column major one.
+
+
+
+
+
+
+
+
+
+PART 3: Designing the UArray2 Interface
+---------------------------------------
+
+3A. Describe three (or more) things you learned about the design and semantics
+    of the UArray2 interface from reading useuarray2.c and from running
+    correct_useuarray2.
+
+They need us to input a size and width,height when you declare one.
+When accessing any element to change it, we need to dereference it.
+UArray2 reads dimensions in column x row format rather than the row x column
+format of C++.

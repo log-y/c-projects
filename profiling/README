@@ -1,0 +1,16 @@
+Logan Yuan (lyuan04), Vina Le (vle04)
+
+Acknowledgements: Asked questions on Piazza
+
+Routine that took the longest:
+Our function um_execute took the longest. More specifically, the
+line:         word = *(uint32_t *)UArray_at(seg_zero, prog_counter);
+in the while loop (prog_counter < seg_zero_len) took up a significant 
+amount of time (16%) relative to other function calls due to repeated calls
+of UArray_at.
+There is no easy way to improve the assembly code without restructuring the
+entire program. Instead of using UArray_at, it is possible to use a regular
+C array, but this would require changing how the whole program is written.
+
+Hours spent analyzing: 4
+Hours spent solving problems: 18

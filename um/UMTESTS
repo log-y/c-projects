@@ -1,0 +1,11 @@
+halt.um
+halt-verbose.um
+add.um
+print-six.um
+cmov_t.um
+cmov_f.um
+mul.um
+segments.um
+segments_two.um
+map_unmap.um
+loadp.um

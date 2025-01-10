@@ -1,0 +1,71 @@
+Authors: 
+
+Acknowledgements: None
+
+We believe we implemented the whole project correctly.
+
+We did not have any significant departures from our design.
+
+Our architecture (in order of when we implemented it):
+
+Registers: A simple 8-element array of uint32_t, each representing a register.
+We wrote setters and getters for this module, letting us modify and access 
+each register using an index.
+
+Memory: We used two sequences to manage our memory. One was a sequence of 
+mapped IDs and the other was a sequence of reusable IDs. When we map a segment,
+we first check for available reusable IDs. If we can't find any reusable IDs,
+we get the next available ID in our mapped sequence. For dereferencing, we 
+added the ID to reusable, freed the element, then set the index to NULL.
+We also wrote additional helper functions to initialize the zero segment and
+get and set each ID.
+
+Instructions: This pieced together the above two modules. Any given instruction
+will either map some memory, access a register, or both, and this is the module
+that handled all of that logic. We had a 14-item long switch that handled
+and executed each instruction.
+
+Um: This is the main file where we open the file, read thru the contents,
+store them in the zero segment, and run the instructions on the zero segment.
+
+It takes our UM 5.25 seconds to execute 50 million instructions. This is 
+because midmark takes 8.40 seconds and it has 80 million instructions.
+At that rate, it will take 5.25 seconds to run 50 million instructions.
+
+Our tests:
+
+add: basic testing to see if our add function works. This adds a few 
+unitialized numbers (should be zero).
+
+print-six: basic testing to see if our add and output function works. This 
+loads two numbers and adds them. Then it prints them out.
+
+cmov_t: loads a few values, tests if one can move into the other if r4 is 1.
+This is a test of cmov. This IS supposed to move.
+
+cmov_f: loads a few values, test if one can move into the other if r4 is 0. 
+This is NOT supposed to move
+
+mul: Loads 8 and 10 into registers and tries to multiply them. Then prints it
+using out(). This is a test of multiplication
+
+segments: Tries to map a single segment, fills it with a random number, then
+tries to retrieve it. This is a test of SSTORE, SLOAD, and MAP. 
+
+segments_two: Tries to map a single segment, fill it with MULTIPLE numbers, then
+tries to retrieve them. This is the same test as above with multiple SSTORE
+queries.
+
+map_unmap: Tries to map a single element, place a value in it, load that value,
+then unmap. This is a test of SSTORE, SLOAD, and UNMAP.
+
+loadp: This maps MULTIPLE segments, tries to load a number of values into them,
+and loads a segment into segment 0. This is a test of LOADP.
+
+We spent around 2 hours analyzing this assignment.
+
+We spent around 5 hours designing.
+
+We spent around 5 hours solving problems after our analysis.
+
+Thanks ^__^

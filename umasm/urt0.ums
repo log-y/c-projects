@@ -1,0 +1,31 @@
+# Logan Yuan (lyuan04), Vina Le (vle04)
+# Name of file: urt0.ums
+# Assignment: asmcoding
+# Purpose of file: urt0.ums contains all of the startup code that allocates
+# space for the call and value stacks, and initializes the stack pointers and
+# register 0.
+#
+# Register assignments:
+# r0: store the value 0
+# r1: stores return address, or takes in input 
+# r2: stores call stack pointer 
+# r3: non-volatile general-purpose register
+# r4: store value stack pointer
+# r5: volatile register
+# r6: volatile register (temporary)
+# r7: volatile register (temporary)
+
+.section data
+        .space 10000                    # allocate space for call stack
+        callstack:
+        .space 10000                    # allocate space for value stack
+        valstack:
+
+.section init
+        .zero r0                        # register 0
+        .temps r6, r7                   # temporary registers
+
+        start:
+                r0 := 0                 # initialize register 0
+                r2 := callstack         # initialize call stack pointer
+                r4 := valstack 

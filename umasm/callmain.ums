@@ -1,0 +1,23 @@
+# Logan Yuan (lyuan04), Vina Le (vle04)
+# Name of file: callmain.ums
+# Assignment: asmcoding
+# Purpose of file: Calls main function
+#
+# Register assignments:
+# r0: stores value 0
+# r1: stores return address
+# r2: stores call stack
+# r3: non-volatile general-purpose register
+# r4: stores value stack
+# r5: volatile register
+# r6: volatile register (temporary)
+# r7: volatile register (temporary)
+
+
+.section init
+    .temps r6, r7               # temporary registers
+    .zero r0                    # register zero
+    goto main linking r1        # call main with return address stored in r1
+    halt                        # end the program
+
+

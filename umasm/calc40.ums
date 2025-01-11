@@ -1,0 +1,465 @@
+# Logan Yuan (lyuan04), Vina Le (vle04)
+# Name of file: calc40.ums
+# Assignment:  asmcoding
+# Purpose of file: calc40.ums provides umasm implementation for calculator 
+# operations. This includes receiving numbers, running calculations, and 
+# calling print functions in printd.ums when needed
+#
+# Register assignments:
+# r0: stores value 0
+# r1: stores return address
+# r2: stores call stack
+# r3: non-volatile general-purpose register
+# r4: stores value stack
+# r5: volatile register
+# r6: volatile register (temporary)
+# r7: volatile register (temporary)
+
+.section rodata
+        jumptable:
+                .space 256
+
+.section init
+        .zero r0
+        .temps r6, r7
+        r5 := 0
+        goto initialize_table
+
+.section init
+
+        # function: initialize_table
+        # purpose : creates a table for running all possible commands
+        # inputs  : none
+        # outputs : none
+        # effects : m[r0] now stores locations for all needed function calls
+        # notes   : 
+        initialize_table:
+                r5 := r5 + 1
+                r3 := jumptable + r5
+                m[r0][r3] := input_error
+                if (r5 != 256) goto initialize_table using r1
+
+                m[r0][jumptable + '0'] := digit
+                m[r0][jumptable + '1'] := digit
+                m[r0][jumptable + '2'] := digit
+                m[r0][jumptable + '3'] := digit
+                m[r0][jumptable + '4'] := digit
+                m[r0][jumptable + '5'] := digit
+                m[r0][jumptable + '6'] := digit
+                m[r0][jumptable + '7'] := digit
+                m[r0][jumptable + '8'] := digit
+                m[r0][jumptable + '9'] := digit
+
+                m[r0][jumptable + '+'] := add
+                m[r0][jumptable + '-'] := sub
+                m[r0][jumptable + '*'] := mul
+                m[r0][jumptable + '/'] := div
+
+                m[r0][jumptable + '&'] := and
+                m[r0][jumptable + '|'] := or
+
+                m[r0][jumptable + 'c'] := change_sign
+                m[r0][jumptable + '~'] := flip
+                m[r0][jumptable + 's'] := swap
+                m[r0][jumptable + 'd'] := dup
+                m[r0][jumptable + 'p'] := pop_stack
+                m[r0][jumptable + '\n'] := print_stack
+                m[r0][jumptable + 'z'] := clear_stack
+                m[r0][jumptable + ' '] := waiting
+
+
+
+.section text
+        
+        # Prints the error message for receiving an unknown input
+        input_error:
+                output " Unknown character: '"
+                output r1
+                output "'\n"
+                goto waiting
+
+        # function: swap
+        # purpose : swaps the top two elements on the r4 stack
+        # input(s)  : none
+        # output(s) : none
+        # effect(s) : r4 now has its top two elements swapped in position
+        # notes   : expects r4 as the value stack, expects it to have more than
+        # 2 element, r3 holds the top element
+        swap:
+                r1 := valstack - 2
+                if (r4 >s r1) goto missing_two_args using r5
+                push r5 on stack r2 # puts 3 parameters on call stack
+                push r3 on stack r2
+                push r1 on stack r2
+                pop r3 off stack r4
+                pop r5 off stack r4
+                push r3 on stack r4
+                push r5 on stack r4
+                pop r1 off stack r2 # takes 3 parameters off of call stack
+                pop r3 off stack r2
+                pop r5 off stack r2
+                goto waiting
+
+        # function: dup
+        # purpose : swaps the top two elements on the r4 stack
+        # input(s)  : none
+        # output(s) : none
+        # effect(s) : r4 now has its top element duplicated
+        # notes   : expects r4 as the value stack, expects it to have more than
+        # 2 elements, r3 holds the top element
+        dup:
+                r1 := valstack - 1
+                if (r4 >s r1) goto missing_one_arg using r5
+                push r5 on stack r2 # puts 3 parameters on call stack
+                push r3 on stack r2
+                push r1 on stack r2
+                pop r3 off stack r4
+                push r3 on stack r4 # puts last element on stack
+                push r3 on stack r4 # then does it again (duplicate!)
+                pop r1 off stack r2 # takes 3 parameters off of call stack
+                pop r3 off stack r2
+                pop r5 off stack r2
+                goto waiting
+
+        # function: pop_stack
+        # purpose : removes the top element of the stack
+        # input(s)  : none
+        # output(s) : none
+        # effect(s) : r4 now has its top element duplicated
+        # notes   : expects r4 as the value stack, expects it to have more than
+        # 2 elements, r3 holds the top element
+        pop_stack:
+                r1 := valstack - 1
+                if (r4 >s r1) goto missing_one_arg using r5
+                push r5 on stack r2 # puts 3 parameters on call stack
+                push r3 on stack r2
+                push r1 on stack r2
+                pop r3 off stack r4 # removes last element
+                pop r1 off stack r2 # takes 3 parameters off of call stack
+                pop r3 off stack r2
+                pop r5 off stack r2
+                goto waiting
+
+        # function: or
+        # purpose : pops top 2 values of stack, ors (bitwise) them, places 
+        # new value on top of stack, then returns
+        # input(s)  : none
+        # output(s) : result is stored in r1
+        # effect(s) : replaces top 2 values of stack with their bitwise OR
+        # notes   : expects r4 as the value stack, expects it to have more than
+        # 2 elements, r3 holds top element of stack, r5 holds 2nd top element
+        or:
+                r1 := valstack - 2
+                if (r4 >s r1) goto missing_two_args using r5
+                push r5 on stack r2 # puts 3 parameters on call stack
+                push r3 on stack r2
+                push r1 on stack r2
+                pop r3 off stack r4
+                pop r5 off stack r4
+                r1 := r5 | r3       # performs bitwise OR
+                push r1 on stack r4
+                pop r1 off stack r2 # takes 3 parameters off of call stack
+                pop r3 off stack r2
+                pop r5 off stack r2
+                goto waiting
+
+        # function: and
+        # purpose : pops top 2 values of stack, ands (bitwise) them, places 
+        # new value on top of stack, then returns
+        # input(s)  : none
+        # output(s) : result is stored in r1
+        # effect(s) : replaces top 2 values of stack with their bitwise AND
+        # notes   : expects r4 as the value stack, expects it to have more than
+        # 2 elements, r3 holds top element of stack, r5 holds 2nd top element
+        and:
+                r1 := valstack - 2
+                if (r4 >s r1) goto missing_two_args using r5
+                push r5 on stack r2 # puts 3 parameters on call stack
+                push r3 on stack r2
+                push r1 on stack r2
+                pop r3 off stack r4
+                pop r5 off stack r4
+                r1 := r5 & r3       # performans bitwise AND
+                push r1 on stack r4
+                pop r1 off stack r2 # takes 3 parameters off of call stack
+                pop r3 off stack r2
+                pop r5 off stack r2
+                goto waiting
+
+        # function: add
+        # purpose : pops top 2 values of stack, adds them, places new value on 
+        # top of stack, then returns
+        # input(s)  : none
+        # output(s) : result is stored in r1
+        # effect(s) : replaces top 2 values of stack with their sum
+        # notes   : expects r4 as the value stack, expects it to have more than
+        # 2 elements, r3 holds top element of stack, r5 holds 2nd top element
+        add:    
+                r1 := valstack - 2
+                if (r4 >s r1) goto missing_two_args using r5
+                push r5 on stack r2 # puts 3 parameters on call stack
+                push r3 on stack r2
+                push r1 on stack r2
+                pop r3 off stack r4
+                pop r5 off stack r4
+                r1 := r5 + r3
+                push r1 on stack r4
+                pop r1 off stack r2 # takes 3 parameters off of call stack
+                pop r3 off stack r2
+                pop r5 off stack r2
+                goto waiting
+
+        # function: mul(tiply)
+        # purpose : pops top 2 values of stack, muls them, places new value on 
+        # top of stack, then returns
+        # input(s)  : none
+        # output(s) : result is stored in r1
+        # effect(s) : replaces top 2 values of stack with their product
+        # notes   : expects r4 as the value stack, expects it to have more than
+        # 2 elements, r3 holds top element of stack, r5 holds 2nd top element
+        mul:
+                r1 := valstack - 2
+                if (r4 >s r1) goto missing_two_args using r5
+                push r5 on stack r2 # puts 3 parameters on call stack
+                push r3 on stack r2
+                push r1 on stack r2
+                pop r3 off stack r4
+                pop r5 off stack r4
+                r1 := r5 * r3       # performs multiplication
+                push r1 on stack r4
+                pop r1 off stack r2 # takes 3 parameters off of call stack
+                pop r3 off stack r2
+                pop r5 off stack r2
+                goto waiting
+
+        # function: sub(tract)
+        # purpose : pops top 2 values of stack, subs them, places new value on 
+        # top of stack, then returns
+        # input(s)  : none
+        # output(s) : result is stored in r1
+        # effect(s) : replaces top 2 values of stack with their difference
+        # notes   : expects r4 as the value stack, expects it to have more than
+        # 2 elements, r3 holds top element of stack, r5 holds 2nd top element
+        sub:
+                r1 := valstack - 2
+                if (r4 >s r1) goto missing_two_args using r5
+                push r5 on stack r2 # puts 3 parameters on call stack
+                push r3 on stack r2
+                push r1 on stack r2
+                pop r3 off stack r4
+                pop r5 off stack r4
+                r1 := r5 - r3       # subtracts 2nd top from top element
+                push r1 on stack r4
+                pop r1 off stack r2 # takes 3 parameters off of call stack
+                pop r3 off stack r2
+                pop r5 off stack r2
+                goto waiting
+
+        # function: div(ide)
+        # purpose : pops top 2 values of stack, divs them, places new value on 
+        # top of stack, then returns
+        # input(s)  : none
+        # output(s) : result is stored in r1
+        # effect(s) : replaces top 2 values of stack with their quotient
+        # notes   : expects r4 as the value stack, expects it to have more than
+        # 2 elements, r3 holds top element of stack, r5 holds 2nd top element
+        div:
+                r1 := valstack - 2
+                if (r4 >s r1) goto missing_two_args using r5
+                push r5 on stack r2 # puts 3 parameters on call stack
+                push r3 on stack r2
+                push r1 on stack r2
+                pop r3 off stack r4
+                pop r5 off stack r4
+                if (r3 == 0) goto divide_zero    # show error message
+                if (r3 <s 0) goto second_neg using r1 # denominator negative
+                if (r5 <s 0) goto first_neg using r1 # numerator negative
+                r1 := r5 / r3
+                push r1 on stack r4
+                pop r1 off stack r2 # takes 3 parameters off of call stack
+                pop r3 off stack r2
+                pop r5 off stack r2
+                goto waiting
+
+
+        # Handles edge case for above (when denominotor is negative)
+        divide_zero:
+                output "Division by zero\n"
+                push r5 on stack r4 
+                push r3 on stack r4
+                pop r1 off stack r2 # takes 3 parameters off of call stack
+                pop r3 off stack r2
+                pop r5 off stack r2
+                goto waiting
+
+        # When denominator is negative (helper function for above)
+        first_neg:
+                r5 := r5 - 1
+                r5 := ~r5     # negates the negative
+                r1 := r5 / r3 # performs operation
+                r1 := -r1     # puts -quotient back on stack
+                push r1 on stack r4
+                pop r1 off stack r2 # takes 3 parameters off of call stack
+                pop r3 off stack r2
+                pop r5 off stack r2
+                goto waiting
+
+        # When numerator is negative (helper function for above)
+        second_neg:
+                if (r5 <s 0) goto double_negative using r1
+                r3 := r3 - 1    # exact same process as above, w/ different num
+                r3 := ~r3
+                r1 := r5 / r3
+                r1 := -r1
+                push r1 on stack r4
+                pop r1 off stack r2 # takes 3 parameters off of call stack
+                pop r3 off stack r2
+                pop r5 off stack r2
+                goto waiting
+
+        # When both are negative (helper function for above)
+        double_negative:
+                r3 := r3 - 1
+                r3 := ~r3       # negates numerator
+                r5 := r5 - 1
+                r5 := ~r5       # negates denominator
+                r1 := r5 / r3   # then divides them
+                push r1 on stack r4
+                pop r1 off stack r2 # takes 3 parameters off of call stack
+                pop r3 off stack r2
+                pop r5 off stack r2
+                goto waiting
+
+        # function: change_sign
+        # purpose : changes sign of top value in stack (in r4)
+        # input(s)  : none
+        # output(s) : result is stored in r1
+        # effect(s) : replaces top value of stack with its negation
+        # notes   : expects r4 as the value stack, expects it to have more than
+        # 1 element, r3 holds the top element
+        change_sign:
+                r1 := valstack - 1
+                if (r4 >s r1) goto missing_one_arg using r5
+                push r5 on stack r2 # puts 3 parameters on call stack
+                push r3 on stack r2
+                push r1 on stack r2
+                pop r3 off stack r4
+                if (r3 <s 0) goto change_sign_neg using r5  # neg -> pos
+                r1 := ~r3       # pos -> neg
+                r1 := r1 + 1
+                push r1 on stack r4
+                pop r1 off stack r2 # takes 3 parameters off of call stack
+                pop r3 off stack r2
+                pop r5 off stack r2
+                goto waiting
+
+        # helper function for above (when turning negative numbers to positive)
+        change_sign_neg:
+                r3 := r3 - 1
+                r1 := ~r3
+                push r1 on stack r4
+                pop r1 off stack r2 # takes 3 parameters off of call stack
+                pop r3 off stack r2
+                pop r5 off stack r2
+                goto waiting
+
+        # function: flip
+        # purpose : does a bitwise flip of the top element in the stack
+        # input(s)  : none
+        # output(s) : none
+        # effect(s) : replaces top value of stack with its bitwise opposite
+        # notes   : expects r4 as the value stack, expects it to have more than
+        # 1 element, r3 holds the top element
+        flip:
+                push r5 on stack r2 # puts 3 parameters on call stack
+                push r3 on stack r2
+                push r1 on stack r2
+                r1 := valstack - 1
+                if (r4 >s r1) goto missing_one_arg using r5
+                pop r3 off stack r4
+                r1 := ~r3
+                push r1 on stack r4
+                pop r1 off stack r2 # takes 3 parameters off of call stack
+                pop r3 off stack r2
+                pop r5 off stack r2
+                goto waiting
+
+        # Prints the error message for when you don't have enough items on 
+        # on the stack for some operation (missing 2 items)
+        missing_two_args:
+                output "Stack underflow---expected at least 2 elements\n"
+                goto waiting
+
+        # Prints the error message for when you don't have enough items on 
+        # on the stack for some operation (missing 1 items)
+        missing_one_arg:
+                output "Stack underflow---expected at least 1 element\n"
+                goto waiting
+
+        # function: digit
+        # purpose : after a digit is received, adds it to valuestack and returns
+        # input(s)  : r1 - inputted number (found from jumptable)
+        # output(s) : none
+        # effect(s) : turns value of r1 into decimal value (instead of ascii)
+        # notes   : expects r4 as the value stack
+        digit:
+                r1 := r1 - '0'
+                push r1 on stack r4
+                goto entering
+
+        # calls our printing function, located in printd.ums
+        print_stack:
+                goto printing
+
+        # function: clear_stack
+        # purpose : empties the stack (when user inputs a 'z') and returns
+        # input(s)  : none
+        # output(s) : none
+        # effect(s) : r4 now has no elements remaining
+        # notes   : expects r4 as the value stack, expects it to have more than
+        # 2 elements, r3 holds the top element
+        clear_stack:
+                if (r4 == valstack) goto waiting using r1
+                pop r3 off stack r4
+                goto clear_stack
+
+.section text
+        main:
+                goto waiting
+        
+        # Waits for users to start an input. The input is stored in r1, 
+        # compared with EOF, then sent to our jumptable (stored in r3)
+        waiting:
+                r1 := input()
+                r5 := -1
+                if (r1 == r5) goto end using r3
+                r3 := jumptable + r1
+                goto m[r0][r3]
+
+        # Waits for users to start an input with a letter (e.g. 'd', 'z' etc).
+        # The input is stored in r1 (in ascii value)
+        # Then executes the command using the jumptable stored in r3.
+        waiting_with_character:
+                r3 := jumptable + r1
+                goto m[r0][r3]
+
+        # The process for entering digits into the stack. Inputs are stored in
+        # r1, where its checked to see if it's a character or not. If it's a
+        # digit, the valuestack's (r4) top element (r3) gets popped and modified
+        # as to fit the new, proper value
+        entering:
+                r1 := input()
+                r5 := -1
+                if (r1 == r5) goto end using r3
+                if (r1 <s 48) goto waiting_with_character using r5
+                if (r1 >s 57) goto waiting_with_character using r5
+                pop r3 off stack r4
+                r1 := r1 - '0'
+                r3 := r3 * 10
+                r1 := r3 + r1
+                push r1 on stack r4
+                goto entering
+        
+        # Holds the halt instruction (reserved for EOF)
+        end:
+                halt

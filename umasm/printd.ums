@@ -1,0 +1,100 @@
+# Logan Yuan (lyuan04), Vina Le (vle04)
+# Name of file: printd.ums
+# Assignment: asmcoding
+# Purpose of file: Provides functions that will print items on the value stack
+# stored in r4
+#
+# Register assignments:
+# r0: stores value 0
+# r1: stores return address
+# r2: stores call stack
+# r3: non-volatile general-purpose register
+# r4: stores value stack
+# r5: volatile register
+# r6: volatile register (temporary)
+# r7: volatile register (temporary)
+
+.section init
+        .zero r0                        # register zero
+        .temps r6, r7                   # temporary registers
+
+.section text
+                
+        # Store the location of the value stack on call stack.
+        # We are keeping track of the previous value stack in r2, printing the
+        # old one in r4, then using the value stack on r2 agasin
+        printing:
+                push r4 on stack r2     # push value stack pointer to call stack
+
+        # Checks if we're at the end of the valuestack (by comparing pointer
+        # r4 to intial valuestack). Then prints the top value (calling 
+        # appropriate helper functions if needed). Top value stored in r3
+        print:
+                # check if value stack pointer is at initial position (valstack)
+                if (r4 == valstack) goto get_temp_value using r5
+
+                output ">>> "
+                pop r3 off stack r4     # get top value from stack to print
+                r7 := 0x8000000         # store the most negative number in r7
+
+                # check for edge cases
+                # check if value is the most negative number
+                if (r3 == r7) goto print_max_negative using r1
+
+                # check if value is a negative number
+                if (r3 <s 0) goto print_negative_sign using r5
+
+        # Adds a temporary 'end' character to the stack. This is used to 
+        # check when we are at the end of a value
+        print_second:
+                r5 := 'q'               # a char to signify the end of a value
+                push r5 on stack r2     # push onto call stack
+
+        # While loop through each value, printing each digit. The while loop
+        # checks if the current value is == 0 or not (stored in r3). Otherwise,
+        # it uses r5 to hold the current digit, continuously pushes it onto 
+        # call stack. When no more values, it calls a function to prints the
+        # whole number
+        push_number_onto_stack:
+                r5 := r3 mod 10         # get rightmost digit of value
+                r3 := r3 / 10           # removed extracted digit
+                push r5 on stack r2     # push rightmost digit to stack 
+
+                # loop until all digits of number are processed
+                if (r3 == 0) goto print_number
+                goto push_number_onto_stack
+        
+        # Takes the top value of call stack (in r2) and stores it in r5. Then
+        # checks if it's an 'end' value, otherwise converts it to its ASCII
+        # character and prints.
+        print_number:
+                pop r5 off stack r2     # get top value from call stack 
+
+                # check for char that signifies end of a value, if so, print
+                # a new line
+                if (r5 == 'q') goto print_newline using r1
+
+                r5 := r5 + '0'          # convert number to ascii
+                output r5               # print digit
+                goto print_number       # repeat until whole number is printed
+        
+        # Prints a newline (used after getting to the end of a number)
+        print_newline:
+                output "\n"
+                goto print
+
+        # Print the maximum negative value
+        print_max_negative:
+                output "-2147483648\n"
+                goto print
+        
+        # Gets the temporary value stack from r2 (and stores it in r4)
+        get_temp_value:
+                pop r4 off stack r2     # restore value stack pointer 
+                goto waiting            # transition back to waiting state
+
+        # Prints the negative sign
+        print_negative_sign:
+                output "-"
+                r3 := -r3               # negate r3 to make positive
+                goto print_second

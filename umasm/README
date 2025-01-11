@@ -1,0 +1,65 @@
+Homework 8 - asmcoding
+Logan Yuan (lyuan04) and Vina Le (vle04)
+
+Acknowledgements:
+    Thank you prof for the lectures!
+
+Correctly Implemented:
+    - Arithmetic and bitwise operations
+    - Stack manipulation operations
+    - Taking in input and handling incorrect inputs
+    - Printing out the values from the value stack
+
+Departures from Recommended Calling Convention:
+    - We use r4 to hold the value stack pointer
+    - r0 does store the zero value but it also used to accessing memory relevant
+      to the jumptable
+
+Print Module Implementation:
+    Our print module implementation makes use of a recursive print function 
+    (along with helper functions for edge cases) that prints the digits of a 
+    number one by one using arithmetic to extract each digit, until we reach a 
+    specific character (here we use 'q'), signifying that we have reached the 
+    end of the number.
+
+Value Stack Representation:
+    We are representing the value stack using r4, which is the register that we
+    use to store the value stack pointer. We call this the valstack, which is
+    initialized in urt0.ums.
+
+Sections of .ums Files:
+
+urt0.ums:
+    .section init - set zero register and temporary registers, and initializes
+                    zero register as well as call and value stack pointers
+    .section stk - allocates space for the call stack (whose pointer is stored
+                   in r2)
+
+callmain.ums:
+    .section init - set zero register and temporary registers, and calls the 
+                    main function
+
+calc40.ums:
+    .section rodata - allocate space for a jump table of size 256
+    .section init - set zero register and temporary registers, initialize a 
+                    counter to loop through the jump table, and calls a function
+                    to initialize the jump table
+    .section init - loops through the jump table, initializing every entry to 
+                    redirect to input_error, then sets specific entries to call
+                    corresponding RPN calculator commands
+    .section text - handles implementation for arithmetic and bitwise 
+                    operations, stack manipulation, and certain edge cases
+                    relevant to the operations/input
+    .section text - where main function is located, and handles implementation 
+                    and logic for waiting and entering states, as well as a
+                    function that ends the program
+
+printd.ums:
+    .section init - set zero register and temporary registers
+    .section text - handles implementation and logic for recursively printing
+                    the digits of a number from the value stack, as well as
+                    handling certain edge cases
+
+Hours Spent Analyzing Assignment: 4
+Hours Spent Writing Assembly Code: 15
+Hours Spent Debugging Calculator: 5

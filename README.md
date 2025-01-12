@@ -1,1 +1,1 @@
-All of my projects for cs40.
+Various projects I have done in C / assembly emulator language.

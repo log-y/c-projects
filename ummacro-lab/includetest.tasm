@@ -1,0 +1,23 @@
+#			includetest.tasm
+#                   Author: Noah Mendelsohn
+#
+#      This program is an adaptation of simplemacro.tasm. 
+#
+#      Here we illustrate the use of "include" to put the macro in a
+#      separate file
+#
+
+#--------------------------------------------------------------------
+#                            main
+#--------------------------------------------------------------------
+
+include com.tasm
+
+
+
+loadval r3,33554431                  # This is the complement letter A in ASCII
+com r2,r3
+output r2
+halt
+
+halt

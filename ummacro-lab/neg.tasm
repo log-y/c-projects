@@ -1,0 +1,42 @@
+#			neg.tasm
+#                   Author: Logan Yuan
+#
+#      This program is an adaptation of simple.tasm. Here we illustrate
+#      the definition and use of a macro
+#
+
+#--------------------------------------------------------------------
+#
+#                          neg macro
+#
+#      $r[A] := −$r[B] mod 2^32
+#
+#--------------------------------------------------------------------
+
+include com.tasm   
+
+macro neg
+
+temp r1
+com r1,p1
+
+temp r2
+loadval r2,1
+
+temp r3
+
+add r3,r1,r2
+
+mov p1,r3
+
+mend
+
+#--------------------------------------------------------------------
+#                            main
+#--------------------------------------------------------------------
+
+temp r6
+loadval r3,33554366                  # This is the complement letter A in ASCII
+neg r2,r3
+output r2
+halt

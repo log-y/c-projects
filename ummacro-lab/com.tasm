@@ -1,0 +1,17 @@
+
+
+include mov.tasm   
+
+macro com
+
+temp r1
+mov r1,p2
+temp r2
+mov r2,p2
+
+temp r3
+nand r3,r2,r1
+mov p1,r3
+
+mend
+
